@@ -1,0 +1,27 @@
+# Components
+- Players
+    - Color
+    - Score
+- Board
+    - Space
+- Pieces
+    - Capturable
+    - Types
+        - Pawn
+            - Momement
+            - Value
+        - Rook
+            - Momement
+            - Value
+        - Knight
+            - Momement
+            - Value
+        - Bishop
+            - Momement
+            - Value
+        - Queen
+            - Momement
+            - Value
+        - King
+            - Momement
+            - Value
