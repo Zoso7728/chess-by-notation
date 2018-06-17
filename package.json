@@ -1,0 +1,29 @@
+{
+  "name": "chess-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zoso7728/chess-app.git"
+  },
+  "author": "Marques Robinson <spurs.1208@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zoso7728/chess-app/issues"
+  },
+  "homepage": "https://github.com/Zoso7728/chess-app#readme",
+  "devDependencies": {
+    "bluebird": "3.5.1",
+    "bunyan": "1.8.12",
+    "bunyan-format": "0.2.1",
+    "nodemon": "1.17.5",
+    "prompt": "1.0.0",
+    "yargs": "11.0.0"
+  },
+  "dependencies": {}
+}
