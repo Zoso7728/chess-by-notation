@@ -1,31 +1,27 @@
-import Promise from 'bluebird'
-import prompt from 'prompt'
-import prepareGame from './game-prep/run.js'
+import inquirer from 'inquirer'
+import createGame from './game-prep/run.js'
 
-Promise.promisifyAll(prompt)
-
-const GETTING_STARTED_PROMPT = {
-    properties: {
-        startGame: {
-            description: 'Ready to start? y/n',
-            type: 'string',
-            pattern: /^[yn]$/,
-            message: 'was not y or n...',
-            required: true,
+const checkIfReady = async () => {
+    return inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'startGame',
+            message: 'Ready to start?',
+            validate: input => input === 'y',
         },
-    },
+    ])
 }
 
 const run = async () => {
-    prompt.start()
+    const { startGame } = await checkIfReady()
 
-    const { startGame } = await prompt.getAsync(GETTING_STARTED_PROMPT)
-    if (startGame === 'n') console.log('Player left')
-    if (startGame === 'y') {
-        const game = prepareGame()
-
-        console.log(game)
+    if (!startGame) {
+        console.log('Players not ready...')
+        return
     }
+
+    const game = createGame()
+    console.log(game)
 }
 
 run()
