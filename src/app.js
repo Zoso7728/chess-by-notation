@@ -9,7 +9,7 @@ const checkIfReady = async () => {
     }])
 }
 
-const run = async () => {
+(async () => {
     try {
         const { startGame } = await checkIfReady()
 
@@ -23,6 +23,4 @@ const run = async () => {
     } catch (err) {
         console.log(err)
     }
-}
-
-run()
+})()
