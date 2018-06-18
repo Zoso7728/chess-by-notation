@@ -1,27 +1,28 @@
 import inquirer from 'inquirer'
-import createGame from './game-prep/run.js'
+import createGame from './create-game.js'
 
 const checkIfReady = async () => {
-    return inquirer.prompt([
-        {
-            type: 'confirm',
-            name: 'startGame',
-            message: 'Ready to start?',
-            validate: input => input === 'y',
-        },
-    ])
+    return inquirer.prompt([{
+        type: 'confirm',
+        name: 'startGame',
+        message: 'Ready to start?',
+    }])
 }
 
 const run = async () => {
-    const { startGame } = await checkIfReady()
+    try {
+        const { startGame } = await checkIfReady()
 
-    if (!startGame) {
-        console.log('Players not ready...')
-        return
+        if (!startGame) {
+            console.log('Players not ready...')
+            return
+        }
+
+        const game = createGame()
+        // console.log(game)
+    } catch (err) {
+        console.log(err)
     }
-
-    const game = createGame()
-    console.log(game)
 }
 
 run()

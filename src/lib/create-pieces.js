@@ -27,6 +27,8 @@ const types = [
 
 
 export default function(players) {
+    console.log('Creating pieces...')
+
     const pieces = []
     let pieceId = 0
 
@@ -43,10 +45,10 @@ export default function(players) {
                     pieceId: pieceId++,
                     color: !i ? 'white' : 'black',
                     type,
-                    position: 'columnId + rowId',
-                    movement: 'function for determining available tiles to move to',
-                    threatenedBy: ['pieceIds'],
-                    threatening: ['pieceIds'],
+                    position: null, // columnId + rowId
+                    movement: null, // Function for movement
+                    threatenedBy: [], // Array of piece ids
+                    threatening: [], // Array of piece ids
                 })
             }
         }
