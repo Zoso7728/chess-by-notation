@@ -1,4 +1,4 @@
-import { columnIds } from '../utils.js'
+const columnIds = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
 const isOdd = num => num % 2
 

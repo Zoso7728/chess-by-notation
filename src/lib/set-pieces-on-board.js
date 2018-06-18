@@ -1,50 +1,129 @@
 import { filter } from 'lodash'
-import { columnIds } from '../utils.js'
 
-const getPiecesByColor = (pieces, color) => filter(pieces, { color })
+const WHITE_POWER_ROW_ID = 0
+const WHITE_PAWN_ROW_ID = 1
+const BLACK_POWER_ROW_ID = 7
+const BLACK_PAWN_ROW_ID = 6
 
-const setUpPawns = (board, pieces) => {
-    board.forEach((row, rowId) => {
-        if (rowId === 1) {
-            const whitePawns = filter(pieces, ({ color, type }) => color === 'white' && type === 'pawn')
+const isRowForPawns = rowId => rowId === WHITE_PAWN_ROW_ID || rowId === BLACK_PAWN_ROW_ID
+const isRowForPowerPieces = rowId => rowId === WHITE_POWER_ROW_ID || rowId === BLACK_POWER_ROW_ID
 
-            row.forEach((column, columnId) => {
-                whitePawns[columnId].position = `${columnIds[columnId]} ${rowId + 1}`
-            })
-        }
+const getByColor = (arrOfObjs, color) => filter(arrOfObjs, { color })
+const getByType = (arrOfObjs, type) => filter(arrOfObjs, { type })
 
-        if (rowId === 6) {
-            const whitePawns = filter(pieces, ({ color, type }) => color === 'black' && type === 'pawn')
+const getRelevantColumns = (row, indexes) => indexes.map(i => row[i])
 
-            row.forEach((column, columnId) => {
-                whitePawns[columnId].position = `${columnIds[columnId]} ${rowId + 1}`
-            })
-        }
+const set = (row, rowId, pieces) => {
+    row.forEach(({ columnId }, key) => {
+        pieces[key].position = `${columnId} ${rowId + 1}`
     })
 }
 
-const setUpRooks = (board, pieces) => {
-    board.forEach((row, rowId) => {
-        if (rowId === 0) { // White
-            const whiteRooks = filter(pieces, ({ color, type }) => color === 'white' && type === 'rook')
+const setUp = {
+    pawns: (row, rowId, pieces) => {
+        if (!isRowForPawns(rowId)) return
 
-            whiteRooks[0].positions = `${row[0].columnId} ${rowId + 1}`
-            whiteRooks[1].positions = `${row[row.length - 1].columnId} ${rowId + 1}`
+        const pawns = getByType(pieces, 'pawn')
+
+        if (rowId === WHITE_PAWN_ROW_ID) set(row, rowId, getByColor(pawns, 'white'))
+        if (rowId === BLACK_PAWN_ROW_ID) set(row, rowId, getByColor(pawns, 'black'))
+    },
+    rooks: (row, rowId, pieces) => {
+        if (!isRowForPowerPieces(rowId)) return
+
+        const rooks = getByType(pieces, 'rook')
+
+        const indexes = [0, 7]
+        const relevantTiles = getRelevantColumns(row, indexes)
+
+        if (rowId === WHITE_POWER_ROW_ID) set(relevantTiles, rowId, getByColor(rooks, 'white'))
+        if (rowId === BLACK_POWER_ROW_ID) set(relevantTiles, rowId, getByColor(rooks, 'black'))
+    },
+    knights: (row, rowId, pieces) => {
+        if (!isRowForPowerPieces(rowId)) return
+
+        const knights = getByType(pieces, 'knight')
+
+        const indexes = [1, 6]
+        const relevantTiles = getRelevantColumns(row, indexes)
+
+        if (rowId === WHITE_POWER_ROW_ID) set(relevantTiles, rowId, getByColor(knights, 'white'))
+        if (rowId === BLACK_POWER_ROW_ID) set(relevantTiles, rowId, getByColor(knights, 'black'))
+    },
+    bishops: (row, rowId, pieces) => {
+        if (!isRowForPowerPieces(rowId)) return
+
+        const bishops = getByType(pieces, 'bishop')
+
+        const indexes = [2, 5]
+        const relevantTiles = getRelevantColumns(row, indexes)
+
+        if (rowId === WHITE_POWER_ROW_ID) set(relevantTiles, rowId, getByColor(bishops, 'white'))
+        if (rowId === BLACK_POWER_ROW_ID) set(relevantTiles, rowId, getByColor(bishops, 'black'))
+    },
+    queens: (row, rowId, pieces) => {
+        if (!isRowForPowerPieces(rowId)) return
+
+        const queens = getByType(pieces, 'queen')
+
+        const indexes = [3, 4]
+        const relevantTiles = getRelevantColumns(row, indexes)
+
+        // Queen always gets her color
+        if (rowId === WHITE_POWER_ROW_ID) {
+            const color = 'white'
+            set(
+                getByColor(relevantTiles, color),
+                rowId,
+                getByColor(queens, color)
+            )
         }
 
-        if (rowId === 8) { // Black
-            const blackRooks = filter(pieces, ({ color, type }) => color === 'black' && type === 'rook')
-
-            blackRooks[0].positions = `${columnIds[row[0].columnId]} ${rowId + 1}`
-            blackRooks[1].positions = `${columnIds[row[row.length - 1].columnId]} ${rowId + 1}`
+        if (rowId === BLACK_POWER_ROW_ID) {
+            const color = 'black'
+            set(
+                getByColor(relevantTiles, color),
+                rowId,
+                getByColor(queens, color),
+            )
         }
-    })
+    },
+    kings: (row, rowId, pieces) => {
+        if (!isRowForPowerPieces(rowId)) return
+
+        const kings = getByType(pieces, 'king')
+
+        const indexes = [3, 4]
+        const relevantTiles = getRelevantColumns(row, indexes)
+
+        // King gets opposite color
+        if (rowId === WHITE_POWER_ROW_ID) {
+            set(
+                getByColor(relevantTiles, 'black'),
+                rowId,
+                getByColor(kings, 'white')
+            )
+        }
+
+        if (rowId === BLACK_POWER_ROW_ID) {
+            set(
+                getByColor(relevantTiles, 'white'),
+                rowId,
+                getByColor(kings, 'black'),
+            )
+        }
+    },
 }
 
 export default function(players, pieces, board) {
     console.log('Setting pieces on the board...')
 
     board.forEach((row, rowId) => {
-
+        setUp.pawns(row, rowId, pieces)
+        setUp.rooks(row, rowId, pieces)
+        setUp.knights(row, rowId, pieces)
+        setUp.bishops(row, rowId, pieces)
+        setUp.queens(row, rowId, pieces)
+        setUp.kings(row, rowId, pieces)
     })
 }

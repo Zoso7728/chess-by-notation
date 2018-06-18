@@ -19,7 +19,7 @@ const run = async () => {
         }
 
         const game = createGame()
-        // console.log(game)
+        console.log(game.pieces)
     } catch (err) {
         console.log(err)
     }
