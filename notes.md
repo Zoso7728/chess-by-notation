@@ -3,7 +3,7 @@
     - Color
     - Score
 - Board
-    - Matrix of objects in arrays of arrays
+    - Matrix of objects in arrays of an array
 - Pieces
     - Capturable
     - Types
