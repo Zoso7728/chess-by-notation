@@ -17,7 +17,8 @@ exports.default = function (players) {
         for (var j = 0; j < types.length; j++) {
             var _types$j = types[j],
                 type = _types$j.name,
-                count = _types$j.count;
+                count = _types$j.count,
+                value = _types$j.value;
 
             // Pieces
 
@@ -26,8 +27,9 @@ exports.default = function (players) {
                     pieceId: pieceId++,
                     color: !i ? 'white' : 'black',
                     type: type,
-                    position: null, // columnId + rowId
-                    captured: false
+                    value: value,
+                    captured: false,
+                    position: null // columnId + rowId
                 });
             }
         }
@@ -38,20 +40,26 @@ exports.default = function (players) {
 
 var types = [{
     name: 'pawn',
-    count: 8
+    count: 8,
+    value: 1
 }, {
     name: 'rook',
-    count: 2
+    count: 2,
+    value: 5
 }, {
     name: 'knight',
-    count: 2
+    count: 2,
+    value: 3
 }, {
     name: 'bishop',
-    count: 2
+    count: 2,
+    value: 3
 }, {
     name: 'queen',
-    count: 1
+    count: 1,
+    value: 9
 }, {
     name: 'king',
-    count: 1
+    count: 1,
+    value: 0
 }];

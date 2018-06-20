@@ -2,29 +2,34 @@ const types = [
     {
         name: 'pawn',
         count: 8,
+        value: 1,
     },
     {
         name: 'rook',
         count: 2,
+        value: 5,
     },
     {
         name: 'knight',
         count: 2,
+        value: 3,
     },
     {
         name: 'bishop',
         count: 2,
+        value: 3,
     },
     {
         name: 'queen',
         count: 1,
+        value: 9,
     },
     {
         name: 'king',
         count: 1,
+        value: 0,
     },
 ]
-
 
 export default function(players) {
     console.log('Creating pieces...')
@@ -37,7 +42,7 @@ export default function(players) {
 
         // Types
         for(let j = 0; j < types.length; j ++) {
-            const { name: type, count } = types[j]
+            const { name: type, count, value } = types[j]
 
             // Pieces
             for(let l = 0; l < count; l++) {
@@ -45,8 +50,9 @@ export default function(players) {
                     pieceId: pieceId++,
                     color: !i ? 'white' : 'black',
                     type,
-                    position: null, // columnId + rowId
+                    value,
                     captured: false,
+                    position: null, // columnId + rowId
                 })
             }
         }

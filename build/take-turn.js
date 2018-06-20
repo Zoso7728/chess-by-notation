@@ -23,6 +23,8 @@ var extractNotation = function extractNotation(input) {
     return NOTATION_REGEX.exec(input);
 };
 
+var calcAvailablePositions = function calcAvailablePositions() {};
+
 var requestNotation = function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref2, pieces) {
         var playerTag = _ref2.tag,
@@ -40,7 +42,7 @@ var requestNotation = function () {
 
                                 var _extractNotation = extractNotation(input),
                                     _extractNotation2 = _slicedToArray(_extractNotation, 3),
-                                    inputDup = _extractNotation2[0],
+                                    _ = _extractNotation2[0],
                                     from = _extractNotation2[1],
                                     to = _extractNotation2[2]; // eslint-disable-line
 
@@ -50,7 +52,15 @@ var requestNotation = function () {
                                     return from.includes(piece.position);
                                 });
 
-                                if ((0, _lodash.isEmpty)(pieceToMove)) return from + ' does not contain a movable piece for ' + color;
+                                if ((0, _lodash.isEmpty)(pieceToMove)) {
+                                    return input + ' ' + from + ' does not contain a movable piece for ' + color;
+                                }
+
+                                var availablePositions = calcAvailablePositions();
+
+                                if (!(0, _lodash.isEmpty)(availablePositions)) {
+                                    return input + ' ' + to + ' is not an acceptable';
+                                }
 
                                 return true;
                             }

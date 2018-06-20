@@ -5,6 +5,10 @@ import { getByColor, getAvailablePieces } from './util.js'
 const NOTATION_REGEX = /^([a-h]?[1-9]?]*)-([a-h]?[1-9]?]*)/
 const extractNotation = input => NOTATION_REGEX.exec(input)
 
+const calcAvailablePositions = () => {
+
+}
+
 const requestNotation = async ({ tag: playerTag, color }, pieces) =>
     inquirer.prompt([{
         type: 'input',
@@ -13,13 +17,21 @@ const requestNotation = async ({ tag: playerTag, color }, pieces) =>
         validate: input => {
             if (!NOTATION_REGEX.test(input)) return 'Incorrect syntax! Example: a2-a3'
 
-            const [inputDup, from, to] = extractNotation(input) // eslint-disable-line
+            const [_, from, to] = extractNotation(input) // eslint-disable-line
 
             const piecesByColor = getByColor(pieces, color)
             const availablePieces = getAvailablePieces(piecesByColor)
             const pieceToMove = availablePieces.filter(piece => from.includes(piece.position))
 
-            if (isEmpty(pieceToMove)) return `${from} does not contain a movable piece for ${color}`
+            if (isEmpty(pieceToMove)) {
+                return `${input} ${from} does not contain a movable piece for ${color}`
+            }
+
+            const availablePositions = calcAvailablePositions()
+
+            if (!isEmpty(availablePositions)) {
+                return `${input} ${to} is not an acceptable`
+            }
 
             return true
         },
