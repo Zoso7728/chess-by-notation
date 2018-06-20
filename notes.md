@@ -25,3 +25,13 @@
         - King
             - Momement
             - Value
+
+# Concepts
+- Win condition
+    - One of the kings being captured
+    - Stalemate
+- Moving a piece
+    - Validation
+        - syntax
+        - if the request from value has a piece of the correct color
+        - if the request to value is possible based on the piece type

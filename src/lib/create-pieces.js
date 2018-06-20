@@ -46,9 +46,7 @@ export default function(players) {
                     color: !i ? 'white' : 'black',
                     type,
                     position: null, // columnId + rowId
-                    movement: null, // Function for movement
-                    threatenedBy: [], // Array of piece ids
-                    threatening: [], // Array of piece ids
+                    captured: false,
                 })
             }
         }

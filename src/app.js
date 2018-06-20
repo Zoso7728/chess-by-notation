@@ -1,25 +1,24 @@
-import inquirer from 'inquirer'
 import createGame from './create-game.js'
-
-const checkIfReady = async () => {
-    return inquirer.prompt([{
-        type: 'confirm',
-        name: 'startGame',
-        message: 'Ready to start?',
-    }])
-}
+import takeTurn from './take-turn.js'
 
 (async () => {
     try {
-        const { startGame } = await checkIfReady()
+        const game = createGame()
 
-        if (!startGame) {
-            console.log('Players not ready...')
-            return
+        let turn = 0
+        let turnCount = 0
+
+        console.log('Ready to begin!')
+        console.log('Notation example: d2-d4')
+
+        while (turnCount < 10) {
+            await takeTurn(turn, turnCount, game)
+
+            turn = !turn ? 1 : 0
+            turnCount++
         }
 
-        const game = createGame()
-        console.log(game.pieces)
+        console.log('Game Over!')
     } catch (err) {
         console.log(err)
     }

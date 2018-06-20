@@ -1,4 +1,4 @@
-import { filter } from 'lodash'
+import { getByColor, getByType } from '../util.js'
 
 const WHITE_POWER_ROW_ID = 0
 const WHITE_PAWN_ROW_ID = 1
@@ -8,14 +8,11 @@ const BLACK_PAWN_ROW_ID = 6
 const isRowForPawns = rowId => rowId === WHITE_PAWN_ROW_ID || rowId === BLACK_PAWN_ROW_ID
 const isRowForPowerPieces = rowId => rowId === WHITE_POWER_ROW_ID || rowId === BLACK_POWER_ROW_ID
 
-const getByColor = (arrOfObjs, color) => filter(arrOfObjs, { color })
-const getByType = (arrOfObjs, type) => filter(arrOfObjs, { type })
-
 const getRelevantColumns = (row, indexes) => indexes.map(i => row[i])
 
 const set = (row, rowId, pieces) => {
     row.forEach(({ columnId }, key) => {
-        pieces[key].position = `${columnId} ${rowId + 1}`
+        pieces[key].position = `${columnId}${rowId + 1}`
     })
 }
 
