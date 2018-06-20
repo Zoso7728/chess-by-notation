@@ -7,11 +7,13 @@ const players = [
         id: 0,
         tag: 'Player 1',
         color: 'white',
+        score: 0,
     },
     {
         id: 1,
         tag: 'Player 2',
         color: 'black',
+        score: 0,
     },
 ]
 
