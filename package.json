@@ -1,20 +1,26 @@
 {
   "name": "chess-by-notation",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "main": "app.js",
   "repository": "git@github.com:Zoso7728/chess-by-notation.git",
   "author": "Marques Robinson <spurs.1208@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "lint": "eslint -c .eslintrc src config",
     "clean": "rm -rf build",
-    "build": "babel src -d build",
-    "start": "babel-node --presets=es2015,stage-0 -- ./build/app.js"
+    "prebuild": "yarn run clean",
+    "build": "babel src -d build -i **/*.test.js",
+    "server": "babel-node --presets=es2015,stage-0 ./build/app.js",
+    "start": "yarn run build && yarn run server",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "async": "2.6.1",
     "babel-cli": "6.26.0",
     "babel-core": "6.26.3",
     "babel-eslint": "8.2.3",
+    "babel-polyfill": "6.26.0",
     "babel-preset-es2015": "6.24.1",
     "babel-preset-stage-0": "6.24.1",
     "bluebird": "3.5.1",
@@ -22,6 +28,10 @@
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-plugin-import": "2.12.0",
     "inquirer": "6.0.0",
+    "jest": "23.1.0",
     "lodash": "4.17.10"
+  },
+  "jest": {
+    "testPathIgnorePatterns": ["<rootDir>/build/"]
   }
 }

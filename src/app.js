@@ -1,5 +1,6 @@
-import createGame from './create-game.js'
-import takeTurn from './take-turn.js'
+import 'babel-polyfill'
+import createGame from './lib/create-game/run.js'
+import takeTurn from './lib/take-turn/run.js'
 
 (async () => {
     try {
@@ -13,6 +14,8 @@ import takeTurn from './take-turn.js'
 
         while (turnCount < 10) {
             await takeTurn(turn, turnCount, game)
+
+            // console.log(game.pieces)
 
             turn = !turn ? 1 : 0
             turnCount++

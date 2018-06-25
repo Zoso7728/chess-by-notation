@@ -33,5 +33,9 @@
 - Moving a piece
     - Validation
         - syntax
-        - if the request from value has a piece of the correct color
-        - if the request to value is possible based on the piece type
+        - if the request `from` value has a piece of the correct color
+        - if the request `to` value is possible based on the piece type
+    - Workflow
+        - Request notation from player
+        - Validate `from` and `to` values
+        - Update piece position value
